@@ -12,6 +12,6 @@ Applied Engineering Project. PAE Course, Fall 2023, FIB UPC.
 
 `Joan Vàzquez`
 
-`Alex Wickenden``
+`Alex Wickenden`
 
 ---
