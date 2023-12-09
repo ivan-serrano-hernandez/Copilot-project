@@ -4,7 +4,15 @@ from streamlit_chat import message
 from PIL import Image
 import random
 import time
+from manual import main as show_manual
+from client import main as show_client
+from seguretat import main as show_seguretat
+from manteniment import main as show_manteniment
+from formacio import main as show_formacio
+import openai
 
+
+openai.api_key = "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"
 
 def first10char(msg):
     newMsg = ""
@@ -17,6 +25,15 @@ def first10char(msg):
 def emptySessionState():
     for k in st.session_state.keys():
         del st.session_state[k]
+
+
+def generate_response(prompt):
+    response = openai.Completion.create(
+        model="text-davinci-003",  # or any other suitable GPT-3 model
+        prompt=prompt,
+        max_tokens=150  # adjust as needed
+    )
+    return response['choices'][0]['text'].strip()
 
 # Page setup
 st.set_page_config(
@@ -31,16 +48,62 @@ if "messages" not in st.session_state:
 
 # SIDEBAR ----------------------------------------------------------------------
 with st.sidebar:
-    st.title('[coWorkMate logo]')
+    logo = Image.open('logo.png')
+    ancho_logo = 195
+    eslogan = "<p style='font-weight: bold; font-style: italic;'>La Màgia de ChatPittot: Feina Fàcil, Resultats Increïbles.</p>"
+    st.image(logo, width=ancho_logo)
+    st.markdown(eslogan, unsafe_allow_html=True)
     st.markdown("---")
-    st.markdown("**coWorkMate is a GPT-3 based AI model specifically fine-tunned for day to day interactions within a security operations center.**")
+    st.markdown("**LES TOP 10 PREGUNTES MÉS FREQÜENTS**")
+
+    st.markdown(
+    """
+    <style>
+    .stButton>button {
+        float: right;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+    # Utilizar st.expander para mostrar el manual directamente
+    with st.expander("Seguretat"):
+        show_seguretat()  # Ejecuta la función principal del manual.py
+    with st.expander("Manteniment"):
+        show_manteniment()  # Ejecuta la función principal del manual.py
+    with st.expander("Atenció Client"):
+        show_client()  # Ejecuta la función principal del manual.py
+    with st.expander("Formació"):
+        show_formacio()  # Ejecuta la función principal del manual.py
+
+    st.markdown("---")
+
+        # Utilizar st.expander para mostrar el manual directamente
+    with st.expander("Historial Preguntes"):
+        show_seguretat()  # Ejecuta la función principal del manual.py
 
 
 
 # MAIN PAGE ---------------------------------------------------------------------
-logo = Image.open('company_heading.jpg')
-st.image(logo)
-st.markdown("### A NLP tool to enhance your workspace")
+logo = Image.open('company_heading_blue.jpg')
+ancho_logo = 1350
+st.image(logo, width=ancho_logo)
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        float: right;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Utilizar st.expander para mostrar el manual directamente
+with st.expander("Manual de Usuario"):
+    show_manual()  # Ejecuta la función principal del manual.py
+
 st.markdown("---")
 
 # set of welcome prompts 
@@ -68,6 +131,13 @@ firstPrompt = True
 if prompt := st.chat_input("Introduce your prompt"):
     # Display user message in chat message container
     st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    # Use GPT-3 to generate a response
+    gpt_response = generate_response(prompt)
+    
+    # Display GPT-3 response in chat message container
+    st.session_state.messages.append({"role": "assistant", "content": gpt_response})
+    
     # Display updated chat history
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
