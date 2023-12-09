@@ -9,10 +9,35 @@ from client import main as show_client
 from seguretat import main as show_seguretat
 from manteniment import main as show_manteniment
 from formacio import main as show_formacio
+from historial import main as show_historial
+from historial import actualiza_prompt
 import openai
 
 
-openai.api_key = "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"
+openai.api_key = "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"
+
+def simulate_typing(text):
+    time.sleep(0.5)
+    message_placeholder = st.empty()
+    full_response = ""
+    assistant_welcome_msg = text
+    for chunk in assistant_welcome_msg.split():
+        full_response += chunk + " "
+        time.sleep(0.15)
+        # Add a blinking cursor to simulate typing
+        message_placeholder.markdown(full_response + "▌")
+    message_placeholder.markdown(full_response)
+
+def welcome():
+    message_placeholder = st.empty()
+    full_response = ""
+    assistant_welcome_msg = random.choice(welcome_msgs)
+    for chunk in assistant_welcome_msg.split():
+        full_response += chunk + " "
+        time.sleep(0.15)
+        # Add a blinking cursor to simulate typing
+        message_placeholder.markdown(full_response + "▌")
+    message_placeholder.markdown(full_response)
 
 def first10char(msg):
     newMsg = ""
@@ -26,15 +51,6 @@ def emptySessionState():
     for k in st.session_state.keys():
         del st.session_state[k]
 
-
-def generate_response(prompt):
-    response = openai.Completion.create(
-        model="text-davinci-003",  # or any other suitable GPT-3 model
-        prompt=prompt,
-        max_tokens=150  # adjust as needed
-    )
-    return response['choices'][0]['text'].strip()
-
 # Page setup
 st.set_page_config(
     page_title="coWorkMate",
@@ -43,7 +59,7 @@ st.set_page_config(
 
 # Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state["messages"] = [{"role": "assistant", "content": "Hola, soy ChatGPT, ¿En qué puedo ayudarte?"}]
 
 
 # SIDEBAR ----------------------------------------------------------------------
@@ -55,17 +71,6 @@ with st.sidebar:
     st.markdown(eslogan, unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("**LES TOP 10 PREGUNTES MÉS FREQÜENTS**")
-
-    st.markdown(
-    """
-    <style>
-    .stButton>button {
-        float: right;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
     # Utilizar st.expander para mostrar el manual directamente
     with st.expander("Seguretat"):
@@ -81,7 +86,7 @@ with st.sidebar:
 
         # Utilizar st.expander para mostrar el manual directamente
     with st.expander("Historial Preguntes"):
-        show_seguretat()  # Ejecuta la función principal del manual.py
+        show_historial()  # Ejecuta la función principal del manual.py
 
 
 
@@ -89,58 +94,25 @@ with st.sidebar:
 logo = Image.open('company_heading_blue.jpg')
 ancho_logo = 1350
 st.image(logo, width=ancho_logo)
-st.markdown(
-    """
-    <style>
-    .stButton>button {
-        float: right;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
-# Utilizar st.expander para mostrar el manual directamente
-with st.expander("Manual de Usuario"):
-    show_manual()  # Ejecuta la función principal del manual.py
-
+# Manual usuari
+with st.expander("Manual de Usuario"):  show_manual() 
+ 
 st.markdown("---")
 
-# set of welcome prompts 
-welcome_msgs = [
-            "Hello there! How can I assist you today?",
-            "Hi, human! Is there anything I can help you with?",
-            "Do you need help?"
-        ]
+# Conversa amb GPT
+for msg in st.session_state["messages"]:
+    st.chat_message(msg["role"]).write(msg["content"])
 
-# display assistant's initial text
-with st.chat_message("assistant"):
-    message_placeholder = st.empty()
-    full_response = ""
-    assistant_welcome_msg = random.choice(welcome_msgs)
-    for chunk in assistant_welcome_msg.split():
-        full_response += chunk + " "
-        time.sleep(0.1)
-        # Add a blinking cursor to simulate typing
-        message_placeholder.markdown(full_response + "▌")
-    message_placeholder.markdown(full_response)
-
-# conversation itself ------
-
-firstPrompt = True
-if prompt := st.chat_input("Introduce your prompt"):
-    # Display user message in chat message container
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-    # Use GPT-3 to generate a response
-    gpt_response = generate_response(prompt)
-    
-    # Display GPT-3 response in chat message container
-    st.session_state.messages.append({"role": "assistant", "content": gpt_response})
-    
-    # Display updated chat history
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
-
+if user_input := st.chat_input():
+    st.session_state["messages"].append({"role": "user", "content" : user_input})
+    st.chat_message("user").write(user_input)
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        messages=st.session_state["messages"],
+        temperature=0,
+        max_token=150,
+    )
+    responseMessage=response['choices'][0]['text']
+    st.session_state["messages"].append({"role":"assistant", "content": responseMessage})
+    st.chat_message("assistant").write(responseMessage)

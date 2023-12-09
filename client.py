@@ -1,10 +1,10 @@
 import streamlit as st
 
 def main():
-    st.write('Quines acreditacions cal demanar només començar una operació?')
-    st.write('Quant hem anotar les incidències en el Excel?')
-    st.write('Com iniciar sessió en MANITOU?')
-    st.write('Quain tipus de incidència hem de tractar amb prioritat?')
+    st.write('Llistat de incidencies amb un determinat client')
+    st.write('Serveis contractats/importància del client')
+    st.write('Com fer el INFORME ANTENCIÓ CLIENT')
+    st.write('Com buscar el client en la base de dades')
 
 
 if __name__ == '__main__':

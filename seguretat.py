@@ -3,9 +3,9 @@ import streamlit as st
 def main():
     # Título del manual de usuario
     st.write('Quines acreditacions cal demanar només començar una operació?')
-    st.write('Quant hem anotar les incidències en el Excel?')
-    st.write('Com iniciar sessió en MANITOU?')
-    st.write('Quain tipus de incidència hem de tractar amb prioritat?')
+    st.write('Com puc mirar les darreres incidències de una alarma?')
+    st.write('Quina prioritat se li ha de donar a un sabotatge?')
+    st.write('Filtrar operacions per causa')
 
 
 if __name__ == '__main__':
