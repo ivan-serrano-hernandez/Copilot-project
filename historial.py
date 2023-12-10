@@ -1,14 +1,22 @@
 import streamlit as st
 
-historial = []
+buttons_names = []
+buttons = []
 
-def actualiza_prompt(prompt):
-    if len(historial) > 5: historial.pop(0)
-    historial.append({'Usuari': prompt, 'Assistent': "hola"})
 
-def main():  
-    for entry in historial:
-        question_button = st.button( label=f"{entry['Usuari']}", key=f"button_{entry['Usuari']}", use_container_width=True)
+def main():
+    for but in buttons:
+        if but: return "hola"
+    return None
+
+def add_question(label):
+    buttons_names.append(label)
+
+def show_buttons():
+    for but in buttons_names:
+        b = st.button(but)
+        buttons.append(b)
+
 
 
 if __name__ == '__main__':
