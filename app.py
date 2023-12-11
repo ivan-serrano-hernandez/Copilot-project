@@ -20,7 +20,7 @@ def load_gif(filepath:str):
               return json.load(f) 
 
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 def simulate_typing(text):
     time.sleep(0.5)
@@ -65,8 +65,8 @@ with st.sidebar:
           speed=1,
           reverse=False,
           loop = True,
-          height=150,
-          width=150,
+          height=200,
+          width=200,
         )
     logo = Image.open('logo.png')
     ancho_logo = 195
@@ -112,7 +112,9 @@ for msg in st.session_state["messages"]:
 
 prompt = st.chat_input("Say something")
 if user_input := prompt or res != None:
+    button_clicked = False
     if res != None: 
+        button_clicked = True
         user_input = res
         
     st.session_state["messages"].append({"role": "user", "content": user_input})
@@ -122,7 +124,8 @@ if user_input := prompt or res != None:
     # Display a GIF while waiting for the response
     gif_path = "loading.gif"  # Replace with the actual path to your GIF
     loading_placeholder.chat_message("assistant").image(gif_path) 
-    add_question(user_input)
+    add_question(user_input, button_clicked)
+    user_input = prompt
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",

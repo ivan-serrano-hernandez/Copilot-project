@@ -5,17 +5,20 @@ buttons = []
 
 
 def main():
-    for but in buttons:
-        if but: return "hola"
+    for (label, but) in buttons:
+        if but: 
+            buttons.remove((label, but))
+            return str(label)
+            
     return None
 
-def add_question(label):
-    buttons_names.append(label)
+def add_question(label, button):
+    if not button: buttons_names.append(label)
 
 def show_buttons():
     for but in buttons_names:
         b = st.button(but)
-        buttons.append(b)
+        buttons.append((but, b))
 
 
 
