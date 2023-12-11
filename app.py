@@ -13,6 +13,7 @@ from streamlit_lottie import st_lottie
 import json
 import requests
 from historial import add_question, show_buttons, main as main_h
+import numpy as np
 
 
 def load_gif(filepath:str):
@@ -20,7 +21,7 @@ def load_gif(filepath:str):
               return json.load(f) 
 
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 def simulate_typing(text):
     time.sleep(0.5)
@@ -74,25 +75,13 @@ with st.sidebar:
     #st.image(logo, width=ancho_logo)
     st.markdown(eslogan, unsafe_allow_html=True)
     st.markdown("---")
-    st.markdown("**LES TOP 10 PREGUNTES MÉS FREQÜENTS**")
-
-    # Utilizar st.expander para mostrar el manual directamente
-    with st.expander("Seguretat"):
-        show_seguretat()  # Ejecuta la función principal del manual.py
-    with st.expander("Manteniment"):
-        show_manteniment()  # Ejecuta la función principal del manual.py
-    with st.expander("Atenció Client"):
-        show_client()  # Ejecuta la función principal del manual.py
-    with st.expander("Formació"):
-        show_formacio()  # Ejecuta la función principal del manual.py
-
-    st.markdown("---")
 
     # Utilizar st.expander para mostrar el manual directamente
     with st.expander("Historial Preguntes"):
         show_buttons()
         res = main_h() 
         print(res)
+
 
 # MAIN PAGE ---------------------------------------------------------------------
 logo = Image.open('company_heading_blue.jpg')
@@ -105,11 +94,29 @@ with st.expander("Manual de Usuario"):  show_manual()
  
 st.markdown("---") 
 
-# Conversa amb GPT
-for msg in st.session_state["messages"]:
-    st.chat_message(msg["role"]).write(msg["content"])
+col1, col2 = st.columns([3, 1])
+data = np.random.randn(10, 1)
+
+with col1:
+    for msg in st.session_state["messages"]:
+        st.chat_message(msg["role"]).write(msg["content"])
 
 
+with col2:
+    st.markdown("**LES TOP 10 PREGUNTES MÉS FREQÜENTS**")
+
+    # Utilizar st.expander para mostrar el manual directamente
+    with st.expander("Seguretat"):
+        show_seguretat()  # Ejecuta la función principal del manual.py
+    with st.expander("Manteniment"):
+        show_manteniment()  # Ejecuta la función principal del manual.py
+    with st.expander("Atenció Client"):
+        show_client()  # Ejecuta la función principal del manual.py
+    with st.expander("Formació"):
+        show_formacio()  # Ejecuta la función principal del manual.py
+
+
+## Entrada chat
 prompt = st.chat_input("Say something")
 if user_input := prompt or res != None:
     button_clicked = False
@@ -118,7 +125,7 @@ if user_input := prompt or res != None:
         user_input = res
         
     st.session_state["messages"].append({"role": "user", "content": user_input})
-    st.chat_message("user").write(user_input)
+    col1.chat_message("user").write(user_input)
     loading_placeholder = st.empty() 
 
     # Display a GIF while waiting for the response
@@ -136,4 +143,7 @@ if user_input := prompt or res != None:
     loading_placeholder.empty() 
 
     st.session_state["messages"].append({"role": "assistant", "content": responseMessage})
-    st.chat_message("assistant").write(responseMessage)
+    col1.chat_message("assistant").write(responseMessage)
+
+
+
