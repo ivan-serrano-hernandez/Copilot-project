@@ -1,11 +1,25 @@
 import streamlit as st
 
-def main():
-    # Título del manual de usuario
-    st.write('Quines acreditacions cal demanar només començar una operació?')
-    st.write('Quant hem anotar les incidències en el Excel?')
-    st.write('Com iniciar sessió en MANITOU?')
-    st.write('Quin tipus de incidència hem de tractar amb prioritat?')
+buttons_names = []
+buttons = []
 
+def read_faqs_from_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [line.strip() for line in file]
+
+def main():
+    faqs = read_faqs_from_file('faqs/formacio.txt') 
+
+    for faq in faqs:
+        button = st.button(faq)
+        buttons.append((faq, button))
+
+def f_check_button():
+    for (label, but) in buttons:
+        if but: 
+            buttons.remove((label, but))
+            return str(label)
+            
+    return None
 if __name__ == '__main__':
     main()

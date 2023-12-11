@@ -1,0 +1,3 @@
+Com puc mirar les darreres incidències de una alarma?
+Quina prioritat se li ha de donar a un sabotatge?
+Filtrar operacions per causa
