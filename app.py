@@ -4,6 +4,7 @@ from streamlit_chat import message
 from PIL import Image 
 import time
 from manual import main as show_manual
+from Incidencies import main as show_incidencies
 from client import main as show_client, ac_check_button
 from seguretat import main as show_seguretat, s_check_button
 from manteniment import main as show_manteniment, m_check_button
@@ -15,6 +16,26 @@ import requests
 from historial import add_question, show_buttons, main as main_h
 import numpy as np
 
+automatic_questions = {
+    "Llistat d'incidencies": "Ra ",
+    "Com fer":"random answer",
+    "Com buscar":"Random answer",
+    "Quan hem":"Les incidències es podrien anotar a l'Excel immediatament després de ser reportades. És important tenir un procés eficient per registrar-les per garantir un seguiment adequat.",
+    "Com iniciar":"Per iniciar ssessió en MANITOU has de tenir el teu compte i contrasenya de l'empresa. Si no tens un compte, pots demanar-lo al teu cap de departament. És importatnt activat ewl factor de doble verificació i accedir sempre amb el correu corporatiu. En cas de no recordar la contrasenya, pots recuperar-la a través de l'opció 'Recover password'. Alerta a provar més de 5 intents en un interval d'1 minut, ja que es potbloquetjar el compte per els següents 5 minuts.",
+    "Quin tipus":"Les incidències que afecten de manera crítica les operacions o la producció de l'empresa haurien de ser tractades amb prioritat. Això pot incloure problemes que tenen un impacte significatiu en la productivitat o en la seguretat del sistema.",
+    "Quants equip":"La notificació als equips de serveis dependrà de la naturalesa de l'operació. Podria ser necessari informar als equips de seguretat, atenció al client i manteniment. En el teu cas en particular,pel context que he obtingut, seria necessari contactar amb el departament de seguretat.(de totes formes contacta tu mateix/a amb els departaments que consideris adïents). Vols que contacti amb seguretat directament?",
+    "Quines acreditacions":"En general, cal sol·licitar les acreditacions necessàries per a tots els membres de l'equip que participin en l'operació. Això pot incloure l'accés a sistemes informàtic,s, zones segures o qualsevol altra infraestructura crítica necessària per dur a terme l'operació.",
+    "Com puc":"Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i aplicar els filtres corresponents. També pots cercar amb la barra de cerca. També puc filtrar-te jo mateix les incidències que desitjes buscar. Tens alguna incidència conreta que desitjis?.",
+    "Filtrar": "Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i aplicar els filtres corresponents. També pots cercar amb la barra de cerca. També puc filtrar-te jo mateix les causes que desitjes buscar. Tens alguna causa conreta que desitjis?.",
+}
+
+def get_answer_faqs(question):
+    responseMessage = None
+    for key in automatic_questions.keys():
+        if question.startswith(key):
+            responseMessage = automatic_questions[key]
+            break
+    return responseMessage
 
 def load_gif(filepath:str):
     with open(filepath, "r") as f:
@@ -72,7 +93,7 @@ with st.sidebar:
           width=200,
         )
     logo = Image.open('logo.png')
-    ancho_logo = 195
+    ancho_logo = 160
     eslogan = "<p style='font-weight: bold; font-style: italic;'>La Màgia de ChatPittot: Feina Fàcil, Resultats Increïbles.</p>"
     #st.image(logo, width=ancho_logo)
     st.markdown(eslogan, unsafe_allow_html=True)
@@ -122,7 +143,7 @@ st.image(logo, width=ancho_logo)
 
 # Manual usuari
 with st.expander("Manual de Usuario"):  show_manual() 
- 
+with st.expander("Incidencies"):  show_incidencies()
 st.markdown("---") 
 
 for msg in st.session_state["messages"]:
@@ -159,5 +180,7 @@ if user_input := prompt or res != None:
 
     button_clicked = False
 
+    
+    
 
 

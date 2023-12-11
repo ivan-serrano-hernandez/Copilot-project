@@ -1,0 +1,11 @@
+Departament,Problema,Estat,Solució aplicada,Notes de l'encarregat
+Manteniment,El sistema d'aire condicionat no funciona,Pendent,Espera a un tècnic,
+Atenció client,Un client està queixant-se,Solucionat,Enviament producte nou al client,
+Formació,Els empleats no saben com utilitzar el software,Fallit,Cancel·lació de la formació,M'agradaria tenir un assistent...
+Seguretat,S'ha detectat un atac informàtic,Pendent,Investigació de l'atac, El darrer cop va ser virus tipus...
+Formació,Els empleats no poden accedir al portal d'aprenentatge,Solucionat,Reinici del portal d'aprenentatge,
+Seguretat,S'ha detectat un virus informàtic a X.X,Solucionat,Eliminació del virus,Accedir a l'antivirus A és més eficaç que l'antivirus B
+Manteniment,Els cables de la xarxa estan trencats,Solucionat,Canvi dels cables de la xarxa,
+Atenció client,Un client vol cancel·lar un servei,Solucionat,Cancel·lació del servei,Tenir en compte cancelar-lo de totes les bases de dades
+Formació,Els empleats no tenen prou informació sobre un tema,Fallit,Impartició d'una sessió de formació,La sessió de formació no ha estat suficient
+Seguretat,Empleat ha publicat info confidencial,Solucionat,Eliminació info confidencial,

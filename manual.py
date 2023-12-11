@@ -5,45 +5,32 @@ def main():
     st.title('Manual de Usuario')
 
     # Sección 1: Introducción
-    st.header('1. Introducción')
+    st.header('1. Introducció')
     st.write("""
-    Bienvenido al manual de usuario de nuestra aplicación. 
-    Esta aplicación está diseñada para ayudarte en diferentes tareas.
+    Benvingut al manual d'usuari de ChatPittot 
+    Un Copilot pensat per maximitzar la teva eficiència!.
     """)
 
-    # Sección 2: Cómo Empezar
-    st.header('2. Cómo Empezar')
+    # Sección 2: Funcionalidades Avanzadas
+    st.header('2. Funcionalitats')
     st.write("""
-    Para comenzar, sigue estos pasos:
-    1. **Paso 1:** Abre la aplicación.
-    2. **Paso 2:** Selecciona las opciones deseadas.
-    3. **Paso 3:** Haz clic en el botón "Ejecutar".
-
-    ¡Y eso es todo! La aplicación hará el resto por ti.
+    - **Chatbott:** Demana qualsevol dubte o pregunta que tenguis sobre .
+    - **Faqs:** Les preguntes més freqüents.
+    - **Base de dades d'incidències:** Accedeix a les incidències que s'han produït anteriorment per veure com han estat solucionades i les notes dels tècnics.
     """)
 
-    # Sección 3: Funcionalidades Avanzadas
-    st.header('3. Funcionalidades Avanzadas')
+    # Sección 3: Preguntas Frecuentes
+    st.header('3. Preguntas Frecuentes')
     st.write("""
-    Esta aplicación también incluye algunas funcionalidades avanzadas:
-    - **Función A:** Descripción de la función A.
-    - **Función B:** Descripción de la función B.
+    A la barra lateral podras accedeir a les preguntes més freqüents que han fet altres tècnics i que poden portar més preguntes.
+              Clica a sobre d'una de les preguntes perquè ChatPittot t'ajudi a resoldre-la. A més, podras anar indagant sobre el tema per si tens més dubtes.
     """)
 
-    # Sección 4: Preguntas Frecuentes
-    st.header('4. Preguntas Frecuentes')
+    # Sección 4: Incidències
+    st.header('4. Incidències')
     st.write("""
-    **Pregunta 1:** ¿Cómo puedo personalizar mi perfil?
-    **Respuesta:** Para personalizar tu perfil, ve a la sección de configuración y sigue las instrucciones.
-
-    **Pregunta 2:** ¿Cómo puedo contactar al soporte técnico?
-    **Respuesta:** Puedes contactar al soporte técnico a través del formulario de contacto en nuestra página web.
-    """)
-
-    # Sección 5: Conclusión
-    st.header('5. Conclusión')
-    st.write("""
-    Gracias por utilizar nuestra aplicación. Si tienes alguna pregunta adicional, no dudes en ponerte en contacto con nosotros.
+    Visualitza les incidències que s'han produït anteriorment per veure com han estat solucionades i les notes dels tècnics.
+             Filtra per departament i per estat de la incidència i obtendras l'informació que necessites, també pots preguntar-li a ChatPittot que busqui per tu.
     """)
 
 if __name__ == '__main__':

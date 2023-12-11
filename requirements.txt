@@ -1,2 +1,6 @@
 streamlit
 replicate
+openai
+os-sys
+streamlit-chat
+streamlit_lottie
