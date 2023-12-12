@@ -17,16 +17,16 @@ from historial import add_question, show_buttons, main as main_h
 import numpy as np
 
 automatic_questions = {
-    "Llistat d'incidencies": "Ra ",
-    "Com fer":"random answer",
-    "Com buscar":"Random answer",
+    "Llistat d'incidencies": "Llistar les incidències es tan senzill com obrir l'apartat incidències, desitjes que t'hi porti?",
+    "Com fer":"A l'informe ANTENCIÓ CLIENT s'hi han d'incloure diversos aspectes com per exemple: - Descripció de l'operació - Data i hora de l'operació - Equip de treball - Acreditacions necessàries - Riscos i mesures de seguretat - Observacions - Signatura del responsable de l'operació. Vols descarragar la planitlla?",
+    "Com buscar":"Accedeix a la base de dades de CLIENTS, i accedeix al client particular amb la barra de cerca. Quin cleint desitjes buscar?",
     "Quan hem":"Les incidències es podrien anotar a l'Excel immediatament després de ser reportades. És important tenir un procés eficient per registrar-les per garantir un seguiment adequat.",
     "Com iniciar":"Per iniciar ssessió en MANITOU has de tenir el teu compte i contrasenya de l'empresa. Si no tens un compte, pots demanar-lo al teu cap de departament. És importatnt activat ewl factor de doble verificació i accedir sempre amb el correu corporatiu. En cas de no recordar la contrasenya, pots recuperar-la a través de l'opció 'Recover password'. Alerta a provar més de 5 intents en un interval d'1 minut, ja que es potbloquetjar el compte per els següents 5 minuts.",
     "Quin tipus":"Les incidències que afecten de manera crítica les operacions o la producció de l'empresa haurien de ser tractades amb prioritat. Això pot incloure problemes que tenen un impacte significatiu en la productivitat o en la seguretat del sistema.",
     "Quants equip":"La notificació als equips de serveis dependrà de la naturalesa de l'operació. Podria ser necessari informar als equips de seguretat, atenció al client i manteniment. En el teu cas en particular,pel context que he obtingut, seria necessari contactar amb el departament de seguretat.(de totes formes contacta tu mateix/a amb els departaments que consideris adïents). Vols que contacti amb seguretat directament?",
     "Quines acreditacions":"En general, cal sol·licitar les acreditacions necessàries per a tots els membres de l'equip que participin en l'operació. Això pot incloure l'accés a sistemes informàtic,s, zones segures o qualsevol altra infraestructura crítica necessària per dur a terme l'operació.",
-    "Com puc":"Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i aplicar els filtres corresponents. També pots cercar amb la barra de cerca. També puc filtrar-te jo mateix les incidències que desitjes buscar. Tens alguna incidència conreta que desitjis?.",
-    "Filtrar": "Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i aplicar els filtres corresponents. També pots cercar amb la barra de cerca. També puc filtrar-te jo mateix les causes que desitjes buscar. Tens alguna causa conreta que desitjis?.",
+    "Com puc":"Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i a poplicar els filtres corresponents. Tambéts cercar amb la barra de cerca. També puc filtrar-te jo mateix les incidències que desitjes buscar. Tens alguna incidència concreta que desitjis?.",
+    "Filtrar": "Pots filtrar les operacions per causa accedint a l'apartat 'Incidèndies' i aplicar els filtres corresponents. També pots cercar amb la barra de cerca. També puc filtrar-te jo mateix les causes que desitjes buscar. Tens alguna causa concreta que desitjis?.",
 }
 
 def get_answer_faqs(question):
@@ -42,7 +42,7 @@ def load_gif(filepath:str):
               return json.load(f) 
 
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 def simulate_typing(text):
     time.sleep(0.5)
@@ -77,7 +77,7 @@ st.set_page_config(
 
 # Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "Hola, soy ChatPittot, ¿En qué puedo ayudarte?"}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "Hola, soc CoWorkMate.En que puc ajudar-te?"}]
 
 
 # SIDEBAR ----------------------------------------------------------------------
@@ -94,7 +94,7 @@ with st.sidebar:
         )
     logo = Image.open('logo.png')
     ancho_logo = 160
-    eslogan = "<p style='font-weight: bold; font-style: italic;'>La Màgia de ChatPittot: Feina Fàcil, Resultats Increïbles.</p>"
+    eslogan = "<p style='font-weight: bold; font-style: italic;'>La Màgia de CoWorkMate: Feina Fàcil, Resultats Increïbles.</p>"
     #st.image(logo, width=ancho_logo)
     st.markdown(eslogan, unsafe_allow_html=True)
     st.markdown("---")
@@ -165,13 +165,16 @@ if user_input := prompt or res != None:
     gif_path = "loading.gif"  # Replace with the actual path to your GIF
     loading_placeholder.chat_message("assistant").image(gif_path) 
     add_question(user_input, button_clicked)
-    user_input = prompt
-
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=st.session_state["messages"],
-    )
-    responseMessage = response['choices'][0]['message']['content']
+    # user_input = prompt
+    responsePrepared = get_answer_faqs(user_input)
+    if  responsePrepared != None:
+        responseMessage = responsePrepared
+    else:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=st.session_state["messages"],
+        )
+        responseMessage = response['choices'][0]['message']['content']
 
     loading_placeholder.empty() 
 

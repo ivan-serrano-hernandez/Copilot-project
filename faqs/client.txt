@@ -1,4 +1,3 @@
 Llistat d'incidencies amb un determinat client
-Serveis contractats/importància del client
-Com fer l'INFORME ANTENCIÓ CLIENT
+Com fer l'informe ANTENCIÓ CLIENT
 Com buscar el client en la base de dades
